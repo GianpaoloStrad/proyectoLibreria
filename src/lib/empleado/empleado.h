@@ -15,3 +15,4 @@ struct Empleado {
 };
 
 void ObtenerEmpleados(Empleado empleados[], string csv);
+Empleado BuscarEmpleado(Empleado clientes[], string usuario);

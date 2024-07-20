@@ -47,3 +47,11 @@ void ObtenerEmpleados(Empleado empleados[], string csv) {
         } 
     }
 }
+
+Empleado BuscarEmpleado(Empleado empleados[], string usuario) {
+    for (int i = 0; i < NUM_EMPLEADOS; i++) {
+        if (empleados[i].usuario == usuario)
+            return empleados[i];
+    }
+    return Empleado();
+}

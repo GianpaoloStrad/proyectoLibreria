@@ -17,3 +17,4 @@ struct Cliente {
 };
 
 void ObtenerClientes(Cliente clientes[], Libro libros[], string csv);
+Cliente BuscarCliente(Cliente clientes[], string usuario);

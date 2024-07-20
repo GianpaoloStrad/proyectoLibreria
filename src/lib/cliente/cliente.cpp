@@ -52,3 +52,11 @@ void ObtenerClientes(Cliente clientes[], Libro libros[], string csv) {
         } 
     }
 }
+
+Cliente BuscarCliente(Cliente cliente[], string usuario) {
+    for (int i = 0; i < NUM_CLIENTES; i++) {
+        if (cliente[i].usuario == usuario)
+            return cliente[i];
+    }
+    return Cliente();
+}

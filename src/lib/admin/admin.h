@@ -15,3 +15,4 @@ struct Admin {
 };
 
 void ObtenerAdmins(Admin admins[], string csv);
+Admin BuscarAdmin(Admin clientes[], string usuario);

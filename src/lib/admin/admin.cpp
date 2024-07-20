@@ -47,3 +47,11 @@ void ObtenerAdmins(Admin admins[], string csv) {
         } 
     }
 }
+
+Admin BuscarAdmin(Admin admins[], string usuario) {
+    for (int i = 0; i < NUM_ADMINS; i++) {
+        if (admins[i].usuario == usuario)
+            return admins[i];
+    }
+    return Admin();
+}
