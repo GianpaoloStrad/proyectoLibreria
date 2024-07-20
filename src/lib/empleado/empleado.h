@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include "../libro/libro.h"
+#include "../definiciones.h"
 
 using std::string;
 
@@ -14,5 +16,6 @@ struct Empleado {
     char genero;
 };
 
-void ObtenerEmpleados(Empleado empleados[], string csv);
+void ObtenerEmpleados(Empleado empleados[]);
 Empleado BuscarEmpleado(Empleado clientes[], string usuario);
+void CambiarCantLibro(Libro libros[], string nombre, int cantidad);

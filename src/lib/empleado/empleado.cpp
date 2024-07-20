@@ -5,14 +5,14 @@
 #include "empleado.h"
 
 using   std::string, std::ifstream, std::getline, std::stringstream,
-        std::cout, std::endl;
+        std::cout, std::endl, std::ofstream;
 
 Empleado::Empleado() :
     usuario(""), contrasena(""), primer_nombre(""), apellido(""), genero(' ')
 {}
 
-void ObtenerEmpleados(Empleado empleados[], string csv) {
-    ifstream csv_stream(csv);
+void ObtenerEmpleados(Empleado empleados[]) {
+    ifstream csv_stream(EMPLEADOS_CSV);
     if (!csv_stream) {
         cout << "ERROR AL ABRIR `empleados.csv`" << endl;
         throw;
@@ -54,4 +54,10 @@ Empleado BuscarEmpleado(Empleado empleados[], string usuario) {
             return empleados[i];
     }
     return Empleado();
+}
+
+void CambiarCantLibro(Libro libros[], string nombre, int cantidad) {
+    Libro &libro = BuscarLibroRef(libros, nombre);
+    libro.cantidad = cantidad;
+    ActualizarLibrosCSV(libros);
 }

@@ -5,14 +5,14 @@
 #include "cliente.h"
 
 using   std::string, std::ifstream, std::getline, std::stringstream,
-        std::cout, std::endl;
+        std::cout, std::endl, std::ofstream;
 
 Cliente::Cliente() :
     usuario(""), contrasena(""), primer_nombre(""), apellido(""), genero(' '), libro(Libro())
 {}
 
-void ObtenerClientes(Cliente clientes[], Libro libros[], string csv) {
-    ifstream csv_stream(csv);
+void ObtenerClientes(Cliente clientes[], Libro libros[]) {
+    ifstream csv_stream(CLIENTES_CSV);
     if (!csv_stream) {
         cout << "ERROR AL ABRIR `clientes.csv`" << endl;
         throw;
@@ -36,9 +36,18 @@ void ObtenerClientes(Cliente clientes[], Libro libros[], string csv) {
                             throw ("genero invalido hallado");
                         break;
                     case 5:
-                        clientes[i].libro = BuscarLibro(libros, campo);
-                        if (clientes[i].libro.id == -1)
-                            throw ("libro no hallado en `libros.csv`");
+                        if (campo != "") {
+                            clientes[i].libro = BuscarLibro(libros, campo);
+                            if (clientes[i].libro.id == -1)
+                                throw ("libro no hallado en `libros.csv`");
+                        }
+                        break;
+                    case 6:
+                        switch (tolower(campo[0])) {
+                            case 't': clientes[i].suspendido = true; break;
+                            case 'f': clientes[i].suspendido = false; break;
+                            default: throw("estado de suspension desconocido"); break;
+                        }
                         break;
                     default: throw ("demasiados campos hallados"); break;
                 }
@@ -53,10 +62,49 @@ void ObtenerClientes(Cliente clientes[], Libro libros[], string csv) {
     }
 }
 
-Cliente BuscarCliente(Cliente cliente[], string usuario) {
+Cliente BuscarCliente(Cliente clientes[], string usuario) {
     for (int i = 0; i < NUM_CLIENTES; i++) {
-        if (cliente[i].usuario == usuario)
-            return cliente[i];
+        if (clientes[i].usuario == usuario)
+            return clientes[i];
     }
     return Cliente();
+}
+
+Cliente& BuscarClienteRef(Cliente clientes[], string usuario) {
+    for (int i = 0; i < NUM_CLIENTES; i++) {
+        if (clientes[i].usuario == usuario)
+            return clientes[i];
+    }
+    throw("BuscarClienteRef: el cliente no existe");
+}
+
+void RetirarLibro(Cliente clientes[], Libro libros[], Cliente &cliente, Libro &libro) {
+    libro.cantidad--;
+    cliente.libro = libro;
+    ActualizarClientesCSV(clientes);
+}
+
+void ActualizarClientesCSV(Cliente clientes[]) {
+    ifstream csv_ifstream(CLIENTES_CSV);
+    string encabezado = "";
+    getline(csv_ifstream, encabezado);
+    csv_ifstream.close();
+
+    string del = "del ";
+    string csv = CLIENTES_CSV;
+    for (auto &c : csv)
+        if (c == '/') c = '\\';
+
+    system((del + csv).c_str());
+
+    ofstream csv_ofstream(CLIENTES_CSV);
+    csv_ofstream << encabezado << '\n';
+    for (int i = 0; i < NUM_LIBROS; i++) {
+        csv_ofstream    << clientes[i].usuario << ';'
+                        << clientes[i].contrasena << ';'
+                        << clientes[i].primer_nombre << ';'
+                        << clientes[i].apellido << ';'
+                        << clientes[i].genero << ';'
+                        << clientes[i].libro.nombre << '\n';
+    }
 }

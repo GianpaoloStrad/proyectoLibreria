@@ -6,12 +6,7 @@
 #include "./lib/definiciones.h"
 #include "./lib/herramientas/conversiones.h"
 
-using std::cout, std::endl, std::cin;
-
-const char* LIBROS_CSV = "./data/libros.csv";
-const char* CLIENTES_CSV = "./data/clientes.csv";
-const char* EMPLEADOS_CSV = "./data/empleados.csv";
-const char* ADMINS_CSV = "./data/admins.csv";
+using std::cout, std::endl, std::cin, std::getline;
 
 int main() {
     cout << "Iniciando..." << endl << endl;
@@ -21,10 +16,10 @@ int main() {
     Empleado empleados[NUM_EMPLEADOS] = {};
     Admin admins[NUM_ADMINS] = {};
 
-    ObtenerLibros(libros, LIBROS_CSV);
-    ObtenerClientes(clientes, libros, CLIENTES_CSV);
-    ObtenerEmpleados(empleados, EMPLEADOS_CSV);
-    ObtenerAdmins(admins, ADMINS_CSV);
+    ObtenerLibros(libros);
+    ObtenerClientes(clientes, libros);
+    ObtenerEmpleados(empleados);
+    ObtenerAdmins(admins);
 
     while (true) {
         Cliente cliente_activo = Cliente();
@@ -32,6 +27,7 @@ int main() {
         Admin admin_activo = Admin();
         int tipo_usuario = -1;
         int accion = -1;
+        char accion_c = ' ';
 
         system("cls");
         cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl
@@ -76,14 +72,13 @@ int main() {
             }
 
             if (error) {
-                char accion = ' ';
                 cout    <<  "No se encontro ningun " << CodUsuarioAString(tipo_usuario) << " con las credenciales introducidas." << endl
                         <<  "Desea probar de nuevo? (y/n): ";
                 do {
-                    cin >> accion;
-                } while (tolower(accion) != 'y' && tolower(accion) != 'n');
+                    cin >> accion_c;
+                } while (tolower(accion_c) != 'y' && tolower(accion_c) != 'n');
 
-                if (accion == 'y') {
+                if (accion_c == 'y') {
                     cliente_activo = Cliente();
                     empleado_activo = Empleado();
                     admin_activo = Admin();
@@ -100,35 +95,115 @@ int main() {
             continue;
         }
 
-        system("cls");
-        string temp = "";
-        for(auto c : CodUsuarioAString(tipo_usuario))
-            temp += toupper(c);
+        while (true) {
+            system("cls");
+            string temp = "";
+            for(auto c : CodUsuarioAString(tipo_usuario))
+                temp += toupper(c);
 
-        cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl
-                << "----------- " << temp << " -------------" << endl << endl
-                << "Usuario: ";
-        switch (tipo_usuario) {
-            case U_CLT: cout << cliente_activo.usuario; break;
-            case U_EMP: cout << empleado_activo.usuario; break;
-            case U_ADM: cout << admin_activo.usuario; break;
-        }
-        cout    << endl << "Nombre: ";
-        switch (tipo_usuario) {
-            case U_CLT: cout << cliente_activo.primer_nombre << ' ' << cliente_activo.apellido; break;
-            case U_EMP: cout << empleado_activo.primer_nombre << ' ' << empleado_activo.apellido; break;
-            case U_ADM: cout << admin_activo.primer_nombre << ' ' << admin_activo.apellido; break;
-        }
-        if (tipo_usuario == U_CLT) {
-            cout    << endl << "Libro rentado: " << cliente_activo.libro.nombre << endl << endl
-                    << "(1) Buscar un libro" << endl << endl
-                    << "Ingrese una opcion: ";
+            cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl
+                    << "---------- " << temp << " ------------" << endl << endl
+                    << "Usuario: ";
+            switch (tipo_usuario) {
+                case U_CLT: cout << cliente_activo.usuario; break;
+                case U_EMP: cout << empleado_activo.usuario; break;
+                case U_ADM: cout << admin_activo.usuario; break;
+            }
+            cout    << endl << "Nombre: ";
+            switch (tipo_usuario) {
+                case U_CLT: cout << cliente_activo.primer_nombre << ' ' << cliente_activo.apellido; break;
+                case U_EMP: cout << empleado_activo.primer_nombre << ' ' << empleado_activo.apellido; break;
+                case U_ADM: cout << admin_activo.primer_nombre << ' ' << admin_activo.apellido; break;
+            }
 
-            do {
-                cin >> accion;
-            } while (accion < 1 || accion > 1);
+            Libro libro;
+            string entrada_str = "";
+            switch (tipo_usuario) {
+                case U_CLT:
+                    cout    << endl << "Libro rentado: " << cliente_activo.libro.nombre << endl << endl
+                            << "(1) Buscar un libro" << endl << endl
+                            << "Ingrese una opcion: ";
+
+                    do {
+                        cin >> accion;
+                    } while (accion < 1 || accion > 1);
+
+                    while (true) {
+                        Libro libro;
+                        string entrada_str = "";
+                        bool break_loop = false;
+
+                        system("cls");
+                        cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl
+                                << "---------- " << temp << " ------------" << endl << endl;
+                        cin.ignore(1);
+                        switch (accion) {
+                            case 1:
+                                cout << "Ingrese el nombre del libro (Salir: e): ";
+                                getline(cin, entrada_str);
+                                if (entrada_str == "e") {
+                                    break_loop = true;
+                                    break;
+                                }
+                                libro = BuscarLibro(libros, entrada_str);
+                                if (libro.id != -1) {
+                                    system("cls");
+                                    cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl
+                                            << "----------- LIBRO -------------" << endl << endl
+                                            << "ID: " << libro.id << endl
+                                            << "Nombre: " << libro.nombre << endl
+                                            << "Editorial: " << libro.editorial << endl
+                                            << "Cantidad disp.: " << libro.cantidad << endl
+                                            << "Precio: " << libro.precio << '$' << endl << endl
+                                            << "(1) Salir" << endl
+                                            << "(2) Retirar" << endl
+                                            << "(3) Comprar" << endl << endl
+                                            << "Ingrese una opcion: ";
+
+                                    do {
+                                        cin >> accion;
+                                    } while (accion < 1 || accion > 3);
+
+                                    switch (accion) {
+                                        case 1: break;
+                                        case 2:
+                                            if (libro.cantidad <= 0) {
+                                                cout << "Este libro no esta en existencia actualmente" << endl;
+                                            } else if (cliente_activo.libro.id != -1) {
+                                                cout    << "Ya has retirado un libro. Debes devolverlo antes" << endl
+                                                        << "de poder retirar otro";
+                                            } else {
+                                                RetirarLibro(clientes, libros, cliente_activo, libro);
+                                                cout << "El libro ha sido retirado con exito";
+                                            }
+                                            cin.ignore(1);
+                                            getline(cin, entrada_str);
+                                            break_loop = true;
+                                            break;
+                                    }
+                                } else {
+                                    cout    << "No se encontro ningun libro con el nombre `" << entrada_str << "`." << endl
+                                            << "Desea probar de nuevo? (y/n)";
+
+                                    do {
+                                        cout << 'a' << endl;
+                                        cin >> accion_c;
+                                    } while (tolower(accion_c) != 'y' && tolower(accion_c) != 'n');
+
+                                    if (accion_c == 'y') {
+                                        break_loop = false;
+                                    } else {
+                                        break_loop = true;
+                                    }
+                                }
+                            break;
+                        }
+                        if (break_loop)
+                            break;
+                    }
+                break;
+            }
         }
     }
-
     cout << endl << "Cerrando..." << endl;
 }

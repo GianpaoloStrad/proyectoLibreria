@@ -1,5 +1,5 @@
-libreria: main.o libro.o cliente.o empleado.o admin.o conversiones.o
-	g++ main.o libro.o cliente.o empleado.o admin.o conversiones.o -o ./bin/libreria
+libreria: main.o libro.o cliente.o empleado.o admin.o conversiones.o definiciones.o
+	g++ main.o libro.o cliente.o empleado.o admin.o conversiones.o definiciones.o -o ./bin/libreria
 
 main.o: ./src/main.cpp
 	g++ ./src/main.cpp -c
@@ -18,6 +18,9 @@ admin.o: ./src/lib/admin/admin.cpp
 
 conversiones.o: ./src/lib/herramientas/conversiones.cpp
 	g++ ./src/lib/herramientas/conversiones.cpp -c
+
+definiciones.o: ./src/lib/definiciones.cpp
+	g++ ./src/lib/definiciones.cpp -c
 
 clean:
 	del /s *.o

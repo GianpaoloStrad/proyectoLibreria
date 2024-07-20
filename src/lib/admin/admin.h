@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "../definiciones.h"
 
 using std::string;
 
@@ -14,5 +15,5 @@ struct Admin {
     char genero;
 };
 
-void ObtenerAdmins(Admin admins[], string csv);
+void ObtenerAdmins(Admin admins[]);
 Admin BuscarAdmin(Admin clientes[], string usuario);

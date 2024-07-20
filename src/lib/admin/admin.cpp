@@ -11,8 +11,8 @@ Admin::Admin() :
     usuario(""), contrasena(""), primer_nombre(""), apellido(""), genero(' ')
 {}
 
-void ObtenerAdmins(Admin admins[], string csv) {
-    ifstream csv_stream(csv);
+void ObtenerAdmins(Admin admins[]) {
+    ifstream csv_stream(ADMINS_CSV);
     if (!csv_stream) {
         cout << "ERROR AL ABRIR `admins.csv`" << endl;
         throw;

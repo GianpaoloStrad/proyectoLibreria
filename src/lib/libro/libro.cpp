@@ -5,14 +5,14 @@
 #include "libro.h"
 
 using   std::string, std::ifstream, std::getline, std::stringstream,
-        std::cout, std::endl, std::stoi;
+        std::cout, std::endl, std::stoi, std::ofstream;
 
 Libro::Libro() :
     id(-1), nombre(""), editorial(""), edicion(-1), cantidad(-1), precio(-1)
 {}
 
-void ObtenerLibros(Libro libros[], string csv) {
-    ifstream csv_stream(csv);
+void ObtenerLibros(Libro libros[]) {
+    ifstream csv_stream(LIBROS_CSV);
     if (!csv_stream) {
         cout << "ERROR AL ABRIR `libros.csv`" << endl;
         throw;
@@ -46,8 +46,43 @@ void ObtenerLibros(Libro libros[], string csv) {
 
 Libro BuscarLibro(Libro libros[], string nombre) {
     for (int i = 0; i < NUM_LIBROS; i++) {
+        cout << libros[i].nombre << endl;
         if (libros[i].nombre == nombre)
             return libros[i];
     }
     return Libro();
+}
+
+Libro& BuscarLibroRef(Libro libros[], string nombre) {
+    for (int i = 0; i < NUM_LIBROS; i++) {
+        cout << libros[i].nombre << endl;
+        if (libros[i].nombre == nombre)
+            return libros[i];
+    }
+    throw("BuscarLibroRef: el libro no existe");
+}
+
+void ActualizarLibrosCSV(Libro libros[]) {
+    ifstream csv_ifstream(LIBROS_CSV);
+    string encabezado = "";
+    getline(csv_ifstream, encabezado);
+    csv_ifstream.close();
+
+    string del = "del ";
+    string csv = LIBROS_CSV;
+    for (auto &c : csv)
+        if (c == '/') c = '\\';
+
+    system((del + csv).c_str());
+
+    ofstream csv_ofstream(LIBROS_CSV);
+    csv_ofstream << encabezado << '\n';
+    for (int i = 0; i < NUM_LIBROS; i++) {
+        csv_ofstream    << libros[i].id << ';'
+                        << libros[i].nombre << ';'
+                        << libros[i].cantidad << ';'
+                        << libros[i].editorial << ';'
+                        << libros[i].edicion << ';'
+                        << libros[i].precio << '\n';
+    }
 }
