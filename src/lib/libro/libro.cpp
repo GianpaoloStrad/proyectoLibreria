@@ -43,3 +43,11 @@ void ObtenerLibros(Libro libros[], string csv) {
         } 
     }
 }
+
+Libro BuscarLibro(Libro libros[], string nombre) {
+    for (int i = 0; i < NUM_LIBROS; i++) {
+        if (libros[i].nombre == nombre)
+            return libros[i];
+    }
+    return Libro();
+}

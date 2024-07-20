@@ -1,6 +1,9 @@
+#pragma once
 #include <string>
 
 using std::string;
+
+const int NUM_LIBROS = 100;
 
 struct Libro {
     Libro();
@@ -13,3 +16,4 @@ struct Libro {
 };
 
 void ObtenerLibros(Libro libros[], string csv);
+Libro BuscarLibro(Libro libros[], string nombre);

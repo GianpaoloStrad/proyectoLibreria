@@ -1,7 +1,10 @@
+#pragma once
 #include <string>
 #include "../libro/libro.h"
 
 using std::string;
+
+const int NUM_CLIENTES = 100;
 
 struct Cliente {
     Cliente();
@@ -13,4 +16,4 @@ struct Cliente {
     Libro libro;
 };
 
-void ObtenerClientes(Cliente clientes[], string csv);
+void ObtenerClientes(Cliente clientes[], Libro libros[], string csv);
