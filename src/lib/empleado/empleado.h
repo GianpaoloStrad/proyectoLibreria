@@ -18,4 +18,4 @@ struct Empleado {
 
 void ObtenerEmpleados(Empleado empleados[]);
 Empleado BuscarEmpleado(Empleado clientes[], string usuario);
-void CambiarCantLibro(Libro libros[], string nombre, int cantidad);
+void CambiarCantLibro(Libro libros[], Libro libro, int cantidad);

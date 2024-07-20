@@ -78,9 +78,24 @@ Cliente& BuscarClienteRef(Cliente clientes[], string usuario) {
     throw("BuscarClienteRef: el cliente no existe");
 }
 
-void RetirarLibro(Cliente clientes[], Libro libros[], Cliente &cliente, Libro &libro) {
-    libro.cantidad--;
+void RetirarLibro(Cliente clientes[], Libro libros[], Cliente &cliente, Libro libro) {
+    CambiarCantLibro(libros, libro, libro.cantidad - 1);
+    Cliente &cliente_ref = BuscarClienteRef(clientes, cliente.usuario);
+    cliente_ref.libro = libro;
     cliente.libro = libro;
+    ActualizarClientesCSV(clientes);
+}
+
+void ComprarLibro(Cliente clientes[], Libro libros[], Cliente cliente, Libro libro) {
+    CambiarCantLibro(libros, libro, libro.cantidad - 1);
+}
+
+void DevolverLibro(Cliente clientes[], Libro libros[], Cliente &cliente) {
+    Libro &libro = BuscarLibroRef(libros, cliente.libro.nombre);
+    CambiarCantLibro(libros, libro, libro.cantidad + 1);
+    Cliente &cliente_ref = BuscarClienteRef(clientes, cliente.usuario);
+    cliente_ref.libro = Libro();
+    cliente.libro = Libro();
     ActualizarClientesCSV(clientes);
 }
 
@@ -105,6 +120,7 @@ void ActualizarClientesCSV(Cliente clientes[]) {
                         << clientes[i].primer_nombre << ';'
                         << clientes[i].apellido << ';'
                         << clientes[i].genero << ';'
-                        << clientes[i].libro.nombre << '\n';
+                        << clientes[i].libro.nombre << ';'
+                        << (clientes[i].suspendido ? "true" : "false") << '\n';
     }
 }

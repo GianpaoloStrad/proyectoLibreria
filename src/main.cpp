@@ -121,12 +121,13 @@ int main() {
             switch (tipo_usuario) {
                 case U_CLT:
                     cout    << endl << "Libro rentado: " << cliente_activo.libro.nombre << endl << endl
-                            << "(1) Buscar un libro" << endl << endl
+                            << "(1) Buscar un libro" << endl
+                            << "(2) Devolver libro" << endl << endl
                             << "Ingrese una opcion: ";
 
                     do {
                         cin >> accion;
-                    } while (accion < 1 || accion > 1);
+                    } while (accion < 1 || accion > 2);
 
                     while (true) {
                         Libro libro;
@@ -180,6 +181,17 @@ int main() {
                                             getline(cin, entrada_str);
                                             break_loop = true;
                                             break;
+                                        case 3:
+                                            if (libro.cantidad <= 0) {
+                                                cout << "Este libro no esta en existencia actualmente" << endl;
+                                            } else {
+                                                ComprarLibro(clientes, libros, cliente_activo, libro);
+                                                cout << "El libro ha sido comprado con exito";
+                                            }
+                                            cin.ignore(1);
+                                            getline(cin, entrada_str);
+                                            break_loop = true;
+                                            break;
                                     }
                                 } else {
                                     cout    << "No se encontro ningun libro con el nombre `" << entrada_str << "`." << endl
@@ -196,7 +208,18 @@ int main() {
                                         break_loop = true;
                                     }
                                 }
-                            break;
+                                break;
+                            case 2:
+                                if (cliente_activo.libro.id != -1) {
+                                    DevolverLibro(clientes, libros, cliente_activo);
+                                    cout << "El libro ha sido devuelto con exito" << endl;
+                                } else {
+                                    cout << "No has rentado ningun libro" << endl;
+                                }
+                                cin.ignore(1);
+                                getline(cin, entrada_str);
+                                break_loop = true;
+                                break;
                         }
                         if (break_loop)
                             break;
