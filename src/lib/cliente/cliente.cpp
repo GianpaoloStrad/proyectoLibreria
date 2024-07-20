@@ -44,10 +44,10 @@ void ObtenerClientes(Cliente clientes[], Libro libros[], string csv) {
                 }
             } catch (const char* e) {
                 cout << "ERROR AL OBTENER CLIENTE " << i + 1 << ": " << e << endl;
-                return;
+                throw;
             } catch (std::invalid_argument e) {
                 cout << "ERROR AL OBTENER CLIENTE " << i + 1 << ": " << e.what() << endl; 
-                return;
+                throw;
             }
         } 
     }

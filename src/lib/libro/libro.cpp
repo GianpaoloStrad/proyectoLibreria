@@ -40,7 +40,7 @@ void ObtenerLibros(Libro libros[], string csv) {
                 cout << "ERROR AL OBTENER LIBRO " << i + 1 << ": " << e.what() << endl; 
                 throw;
             }
-        } 
+        }
     }
 }
 

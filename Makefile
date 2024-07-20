@@ -1,5 +1,5 @@
-libreria: main.o libro.o cliente.o
-	g++ main.o libro.o cliente.o -o ./bin/libreria
+libreria: main.o libro.o cliente.o empleado.o admin.o
+	g++ main.o libro.o cliente.o empleado.o admin.o -o ./bin/libreria
 
 main.o: ./src/main.cpp
 	g++ ./src/main.cpp -c
@@ -9,6 +9,12 @@ libro.o: ./src/lib/libro/libro.cpp
 
 cliente.o: ./src/lib/cliente/cliente.cpp
 	g++ ./src/lib/cliente/cliente.cpp -c
+
+empleado.o: ./src/lib/empleado/empleado.cpp
+	g++ ./src/lib/empleado/empleado.cpp -c
+
+admin.o: ./src/lib/admin/admin.cpp
+	g++ ./src/lib/admin/admin.cpp -c
 
 clean:
 	del /s *.o
