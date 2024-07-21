@@ -57,7 +57,6 @@ Empleado BuscarEmpleado(Empleado empleados[], string usuario) {
 }
 
 void CambiarCantLibro(Libro libros[], Libro libro, int cantidad) {
-    cout << "CANT: " << cantidad << '\n';
     Libro &libro_ref = BuscarLibroRef(libros, libro.nombre);
     libro_ref.cantidad = cantidad;
     ActualizarLibrosCSV(libros);

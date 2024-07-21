@@ -18,6 +18,13 @@
 #define CLT_BSC_RET 8
 #define CLT_BSC_CMP 9
 
+#define EMP_BSC 30
+#define EMP_AND 31
+
+#define EMP_BSC_SAL 32
+#define EMP_BSC_ELI 33
+#define EMP_BSC_MOD 34
+
 #define LIB_BSC_1 500
 #define LIB_BSC_2 501
 
