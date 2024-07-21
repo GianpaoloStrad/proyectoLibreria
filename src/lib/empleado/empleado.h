@@ -14,11 +14,13 @@ struct Empleado {
     string primer_nombre;
     string apellido;
     char genero;
+    bool suspendido;
 };
 
 void ObtenerEmpleados(Empleado empleados[]);
-Empleado BuscarEmpleado(Empleado clientes[], string usuario);
+Empleado BuscarEmpleado(Empleado empleados[], string usuario);
 void CambiarCantLibro(Libro libros[], Libro libro, int cantidad);
 void EliminarLibro(Libro libros[], Libro libro);
 void ModificarLibro(Libro libros[], Libro &libro);
 void AnadirLibro(Libro libros[]);
+void ActualizarEmpleadosCSV(Empleado clientes[]);

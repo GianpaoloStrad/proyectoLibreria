@@ -8,7 +8,7 @@ using   std::string, std::ifstream, std::getline, std::stringstream,
         std::cout, std::endl, std::ofstream;
 
 Cliente::Cliente() :
-    usuario(""), contrasena(""), primer_nombre(""), apellido(""), genero(' '), libro(Libro())
+    usuario(""), contrasena(""), primer_nombre(""), apellido(""), genero(' '), libro(Libro()), suspendido(true)
 {}
 
 void ObtenerClientes(Cliente clientes[], Libro libros[]) {
@@ -114,7 +114,7 @@ void ActualizarClientesCSV(Cliente clientes[]) {
 
     ofstream csv_ofstream(CLIENTES_CSV);
     csv_ofstream << encabezado << '\n';
-    for (int i = 0; i < NUM_LIBROS; i++) {
+    for (int i = 0; i < NUM_CLIENTES; i++) {
         if (clientes[i].usuario == "") return;
         csv_ofstream    << clientes[i].usuario << ';'
                         << clientes[i].contrasena << ';'

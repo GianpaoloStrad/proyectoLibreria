@@ -5,7 +5,7 @@
 #include "admin.h"
 
 using   std::string, std::ifstream, std::getline, std::stringstream,
-        std::cout, std::endl;
+        std::cout, std::endl, std::ofstream;
 
 Admin::Admin() :
     usuario(""), contrasena(""), primer_nombre(""), apellido(""), genero(' ')
@@ -35,6 +35,13 @@ void ObtenerAdmins(Admin admins[]) {
                         else
                             throw ("genero invalido hallado");
                         break;
+                    case 5:
+                        switch (tolower(campo[0])) {
+                            case 't': admins[i].suspendido = true; break;
+                            case 'f': admins[i].suspendido = false; break;
+                            default: throw("estado de suspension desconocido"); break;
+                        }
+                        break;
                     default: throw ("demasiados campos hallados"); break;
                 }
             } catch (const char* e) {
@@ -54,4 +61,57 @@ Admin BuscarAdmin(Admin admins[], string usuario) {
             return admins[i];
     }
     return Admin();
+}
+
+void CambiarEstadoCliente(Cliente clientes[], string usuario) {
+    for (int i = 0; i < NUM_CLIENTES; i++) {
+        if (clientes[i].usuario == usuario)
+            clientes[i].suspendido = !clientes[i].suspendido;
+            break;
+    }
+    ActualizarClientesCSV(clientes);
+}
+
+void CambiarEstadoEmpleado(Empleado empleados[], string usuario) {
+    for (int i = 0; i < NUM_EMPLEADOS; i++) {
+        if (empleados[i].usuario == usuario)
+            empleados[i].suspendido = !empleados[i].suspendido;
+            break;
+    }
+    ActualizarEmpleadosCSV(empleados);
+}
+
+void CambiarEstadoAdmin(Admin admins[], string usuario) {
+    for (int i = 0; i < NUM_ADMINS; i++) {
+        if (admins[i].usuario == usuario)
+            admins[i].suspendido = !admins[i].suspendido;
+            break;
+    }
+    ActualizarAdminsCSV(admins);
+}
+
+void ActualizarAdminsCSV(Admin admins[]) {
+    ifstream csv_ifstream(ADMINS_CSV);
+    string encabezado = "";
+    getline(csv_ifstream, encabezado);
+    csv_ifstream.close();
+
+    string del = "del ";
+    string csv = ADMINS_CSV;
+    for (auto &c : csv)
+        if (c == '/') c = '\\';
+
+    system((del + csv).c_str());
+
+    ofstream csv_ofstream(ADMINS_CSV);
+    csv_ofstream << encabezado << '\n';
+    for (int i = 0; i < NUM_ADMINS; i++) {
+        if (admins[i].usuario == "") return;
+        csv_ofstream    << admins[i].usuario << ';'
+                        << admins[i].contrasena << ';'
+                        << admins[i].primer_nombre << ';'
+                        << admins[i].apellido << ';'
+                        << admins[i].genero << ';'
+                        << (admins[i].suspendido ? "true" : "false") << '\n';
+    }
 }

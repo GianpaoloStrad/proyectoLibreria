@@ -8,7 +8,7 @@ using   std::string, std::ifstream, std::getline, std::stringstream,
         std::cout, std::endl, std::ofstream, std::cin;
 
 Empleado::Empleado() :
-    usuario(""), contrasena(""), primer_nombre(""), apellido(""), genero(' ')
+    usuario(""), contrasena(""), primer_nombre(""), apellido(""), genero(' '), suspendido(true)
 {}
 
 void ObtenerEmpleados(Empleado empleados[]) {
@@ -34,6 +34,13 @@ void ObtenerEmpleados(Empleado empleados[]) {
                             empleados[i].genero = toupper(campo[0]);
                         else
                             throw ("genero invalido hallado");
+                        break;
+                    case 5:
+                        switch (tolower(campo[0])) {
+                            case 't': empleados[i].suspendido = true; break;
+                            case 'f': empleados[i].suspendido = false; break;
+                            default: throw("estado de suspension desconocido"); break;
+                        }
                         break;
                     default: throw ("demasiados campos hallados"); break;
                 }
@@ -115,4 +122,30 @@ void AnadirLibro(Libro libros[]) {
         }
     }
     ActualizarLibrosCSV(libros);
+}
+
+void ActualizarEmpleadosCSV(Empleado empleados[]) {
+    ifstream csv_ifstream(EMPLEADOS_CSV);
+    string encabezado = "";
+    getline(csv_ifstream, encabezado);
+    csv_ifstream.close();
+
+    string del = "del ";
+    string csv = EMPLEADOS_CSV;
+    for (auto &c : csv)
+        if (c == '/') c = '\\';
+
+    system((del + csv).c_str());
+
+    ofstream csv_ofstream(EMPLEADOS_CSV);
+    csv_ofstream << encabezado << '\n';
+    for (int i = 0; i < NUM_EMPLEADOS; i++) {
+        if (empleados[i].usuario == "") return;
+        csv_ofstream    << empleados[i].usuario << ';'
+                        << empleados[i].contrasena << ';'
+                        << empleados[i].primer_nombre << ';'
+                        << empleados[i].apellido << ';'
+                        << empleados[i].genero << ';'
+                        << (empleados[i].suspendido ? "true" : "false") << '\n';
+    }
 }
