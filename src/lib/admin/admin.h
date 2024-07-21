@@ -6,7 +6,7 @@
 
 using std::string;
 
-const int NUM_ADMINS = 10;
+const int NUM_ADMINS = 100;
 
 struct Admin {
     Admin();

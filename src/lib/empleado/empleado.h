@@ -5,7 +5,7 @@
 
 using std::string;
 
-const int NUM_EMPLEADOS = 10;
+const int NUM_EMPLEADOS = 100;
 
 struct Empleado {
     Empleado();

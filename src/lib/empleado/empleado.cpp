@@ -119,6 +119,7 @@ void AnadirLibro(Libro libros[]) {
         if (libros[i].id == -1) {
             libro.id = i + 1;
             libros[i] = libro;
+            break;
         }
     }
     ActualizarLibrosCSV(libros);

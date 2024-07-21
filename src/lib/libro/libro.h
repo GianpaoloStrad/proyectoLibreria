@@ -4,7 +4,7 @@
 
 using std::string;
 
-const int NUM_LIBROS = 100;
+const int NUM_LIBROS = 1000;
 
 struct Libro {
     Libro();
