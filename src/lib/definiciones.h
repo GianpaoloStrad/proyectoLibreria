@@ -41,8 +41,9 @@
 #define USR_BSC_1 510
 #define USR_BSC_2 51
 
-#define ERR_LOG 900
-#define ERR_USR 901
+#define ERR_LOG_NEN 900
+#define ERR_LOG_SUS 901
+#define ERR_USR 902
 
 extern const char* LIBROS_CSV;
 extern const char* CLIENTES_CSV;

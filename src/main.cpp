@@ -38,7 +38,7 @@ int main() {
     Empleado empleado_otro = Empleado();
     Admin admin_otro = Admin();
     while (true) {
-        bool error = false;
+        int error = 0;
         bool reintentar = false;
         bool salir = false;
         char accion_c = ' ';
@@ -71,20 +71,29 @@ int main() {
 
             case LOG_CLT:
                 cliente_activo = BuscarCliente(clientes, usuario);
-                error = (cliente_activo.usuario != usuario || cliente_activo.contrasena != contrasena);
+                if (cliente_activo.usuario != usuario || cliente_activo.contrasena != contrasena)
+                    error = ERR_LOG_NEN;
+                else if (cliente_activo.suspendido)
+                    error = ERR_LOG_SUS;
                 break;
 
             case LOG_EMP:
                 empleado_activo = BuscarEmpleado(empleados, usuario);
-                error = (empleado_activo.usuario != usuario || empleado_activo.contrasena != contrasena);
+                if (empleado_activo.usuario != usuario || empleado_activo.contrasena != contrasena)
+                    error = ERR_LOG_NEN;
+                else if (empleado_activo.suspendido)
+                    error = ERR_LOG_SUS;
                 break;
 
             case LOG_ADM:
                 admin_activo = BuscarAdmin(admins, usuario);
-                error = (admin_activo.usuario != usuario || admin_activo.contrasena != contrasena);
+                if (admin_activo.usuario != usuario || admin_activo.contrasena != contrasena)
+                    error = ERR_LOG_NEN;
+                else if (admin_activo.suspendido)
+                    error = ERR_LOG_SUS;
                 break;
 
-            case ERR_LOG:
+            case ERR_LOG_NEN:
                 cout    <<  "No se encontro ningun " << CodUsuarioAString(tipo_usuario) << " con las credenciales introducidas." << endl
                         <<  "Desea probar de nuevo? (y/n): ";
                 do {
@@ -101,6 +110,18 @@ int main() {
                 }
                 break;
 
+            case ERR_LOG_SUS:
+                cout <<  "Lo sentimos, este " << CodUsuarioAString(tipo_usuario) << " esta suspendido";
+
+                cliente_activo = Cliente();
+                empleado_activo = Empleado();
+                admin_activo = Admin();
+
+                cin.ignore(1);
+                getline(cin, entrada_str);
+
+                break;
+             
             case CLT:
                 system("cls");
                 cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl 
@@ -518,21 +539,19 @@ int main() {
                 }
                 break;
             case LOG_CLT:
-                if (error) accion = ERR_LOG;
-                else accion = CLT;
-                break;
             case LOG_EMP:
-                if (error) accion = ERR_LOG;
-                else accion = EMP;
-                break;
             case LOG_ADM:
-                if (error) accion = ERR_LOG;
-                else accion = ADM;
+                if (error) accion = error;
+                else accion = tipo_usuario;
                 break;
-            case ERR_LOG:
+            case ERR_LOG_NEN:
                 error = false;
                 if (reintentar) accion = LOG;
                 else return 0;
+                break;
+            case ERR_LOG_SUS:
+                error = false;
+                accion = LOG;
                 break;
             case CLT:
                 switch (accion_sig) {
