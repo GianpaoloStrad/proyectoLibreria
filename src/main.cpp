@@ -260,13 +260,14 @@ int main() {
                         << "Usuario: " << admin_activo.usuario << endl << endl
                         << "(1) Salir" << endl
                         << "(2) Buscar un libro" << endl
-                        << "(3) Buscar un usuario" << endl
-                        << "(4) Anadir un usuario" << endl << endl
+                        << "(3) Anadir un libro" << endl
+                        << "(4) Buscar un usuario" << endl
+                        << "(5) Anadir un usuario" << endl << endl
                         << "Ingrese una opcion: ";
 
                 do {
                     cin >> accion_sig;
-                } while (accion_sig < 1 || accion_sig > 4);
+                } while (accion_sig < 1 || accion_sig > 5);
 
                 break;
 
@@ -591,14 +592,15 @@ int main() {
                 accion = tipo_usuario;
                 break;
             case EMP_AND:
-                accion = EMP;
+                accion = tipo_usuario;
                 break;
             case ADM:
                 switch (accion_sig) {
                     case 1: accion = LOG; break;
                     case 2: accion = LIB_BSC_1; break;
-                    case 3: accion = USR_BSC_1; break;
-                    case 4: accion = ADM_USR_AND_1; break;
+                    case 3: accion = EMP_AND; break;
+                    case 4: accion = USR_BSC_1; break;
+                    case 5: accion = ADM_USR_AND_1; break;
                 }
                 break;
             case ADM_CLT:
