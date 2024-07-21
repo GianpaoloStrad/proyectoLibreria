@@ -46,7 +46,6 @@ void ObtenerLibros(Libro libros[]) {
 
 Libro BuscarLibro(Libro libros[], string nombre) {
     for (int i = 0; i < NUM_LIBROS; i++) {
-        cout << libros[i].nombre << endl;
         if (libros[i].nombre == nombre)
             return libros[i];
     }
@@ -55,7 +54,6 @@ Libro BuscarLibro(Libro libros[], string nombre) {
 
 Libro& BuscarLibroRef(Libro libros[], string nombre) {
     for (int i = 0; i < NUM_LIBROS; i++) {
-        cout << libros[i].nombre << endl;
         if (libros[i].nombre == nombre)
             return libros[i];
     }
