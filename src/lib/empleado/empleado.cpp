@@ -5,7 +5,7 @@
 #include "empleado.h"
 
 using   std::string, std::ifstream, std::getline, std::stringstream,
-        std::cout, std::endl, std::ofstream;
+        std::cout, std::endl, std::ofstream, std::cin;
 
 Empleado::Empleado() :
     usuario(""), contrasena(""), primer_nombre(""), apellido(""), genero(' ')
@@ -60,5 +60,60 @@ void CambiarCantLibro(Libro libros[], Libro libro, int cantidad) {
     cout << "CANT: " << cantidad << '\n';
     Libro &libro_ref = BuscarLibroRef(libros, libro.nombre);
     libro_ref.cantidad = cantidad;
+    ActualizarLibrosCSV(libros);
+}
+
+void EliminarLibro(Libro libros[], Libro libro) {
+    for (int i = 0; i < NUM_LIBROS - 1; i++) {
+        if (libros[i].id == libro.id) {
+            for (int j = i; j < NUM_LIBROS - 1; j++) {
+                libros[j] = libros[j + 1];
+            }
+            break;
+        }
+    }
+    libros[NUM_LIBROS - 1] = Libro();
+    ActualizarLibrosCSV(libros);
+}
+
+void CrearLibro(Libro &libro) {
+    string entrada_str = "";
+    cin.ignore(1);
+
+    cout << "Nombre: ";
+    getline(cin, libro.nombre);
+    cout << "Editorial: ";
+    getline(cin, libro.editorial);
+    cout << "Edicion: ";
+    cin >> entrada_str;
+    libro.edicion = stoi(entrada_str);
+    cout << "Cantidad: ";
+    cin >> entrada_str;
+    libro.cantidad = stoi(entrada_str);
+    cout << "Precio: ";
+    cin >> entrada_str;
+    libro.precio = stoi(entrada_str); 
+}
+
+void ModificarLibro(Libro libros[], Libro &libro) {
+    CrearLibro(libro);
+    for (int i = 0; i < NUM_LIBROS - 1; i++) {
+        if (libros[i].id == libro.id) {
+            libros[i] = libro;
+            break;
+        }
+    }
+    ActualizarLibrosCSV(libros);
+}
+
+void AnadirLibro(Libro libros[]) {
+    Libro libro;
+    CrearLibro(libro);
+    for (int i = 0; i < NUM_LIBROS; i++) {
+        if (libros[i].id == -1) {
+            libro.id = i + 1;
+            libros[i] = libro;
+        }
+    }
     ActualizarLibrosCSV(libros);
 }

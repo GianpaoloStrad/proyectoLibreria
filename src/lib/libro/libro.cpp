@@ -78,6 +78,7 @@ void ActualizarLibrosCSV(Libro libros[]) {
     ofstream csv_ofstream(LIBROS_CSV);
     csv_ofstream << encabezado << '\n';
     for (int i = 0; i < NUM_LIBROS; i++) {
+        if (libros[i].id == -1) return;
         csv_ofstream    << libros[i].id << ';'
                         << libros[i].nombre << ';'
                         << libros[i].cantidad << ';'

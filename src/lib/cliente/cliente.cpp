@@ -115,6 +115,7 @@ void ActualizarClientesCSV(Cliente clientes[]) {
     ofstream csv_ofstream(CLIENTES_CSV);
     csv_ofstream << encabezado << '\n';
     for (int i = 0; i < NUM_LIBROS; i++) {
+        if (clientes[i].usuario == "") return;
         csv_ofstream    << clientes[i].usuario << ';'
                         << clientes[i].contrasena << ';'
                         << clientes[i].primer_nombre << ';'

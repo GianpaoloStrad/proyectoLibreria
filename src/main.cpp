@@ -96,6 +96,8 @@ int main() {
         }
 
         while (true) {
+            bool break1 = false;
+
             system("cls");
             string temp = "";
             for(auto c : CodUsuarioAString(tipo_usuario))
@@ -121,18 +123,17 @@ int main() {
             switch (tipo_usuario) {
                 case U_CLT:
                     cout    << endl << "Libro rentado: " << cliente_activo.libro.nombre << endl << endl
-                            << "(1) Buscar un libro" << endl
-                            << "(2) Devolver libro" << endl << endl
+                            << "(1) Salir" << endl
+                            << "(2) Buscar un libro" << endl
+                            << "(3) Devolver libro" << endl << endl
                             << "Ingrese una opcion: ";
 
                     do {
                         cin >> accion;
-                    } while (accion < 1 || accion > 2);
+                    } while (accion < 1 || accion > 3);
 
                     while (true) {
-                        Libro libro;
-                        string entrada_str = "";
-                        bool break_loop = false;
+                        bool break2 = false;
 
                         system("cls");
                         cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl
@@ -140,10 +141,14 @@ int main() {
                         cin.ignore(1);
                         switch (accion) {
                             case 1:
+                                break1 = true;
+                                break2 = true;
+                                break;
+                            case 2:
                                 cout << "Ingrese el nombre del libro (Salir: e): ";
                                 getline(cin, entrada_str);
                                 if (entrada_str == "e") {
-                                    break_loop = true;
+                                    break2 = true;
                                     break;
                                 }
                                 libro = BuscarLibro(libros, entrada_str);
@@ -154,6 +159,7 @@ int main() {
                                             << "ID: " << libro.id << endl
                                             << "Nombre: " << libro.nombre << endl
                                             << "Editorial: " << libro.editorial << endl
+                                            << "Edicion: " << libro.edicion << endl
                                             << "Cantidad disp.: " << libro.cantidad << endl
                                             << "Precio: " << libro.precio << '$' << endl << endl
                                             << "(1) Salir" << endl
@@ -179,7 +185,7 @@ int main() {
                                             }
                                             cin.ignore(1);
                                             getline(cin, entrada_str);
-                                            break_loop = true;
+                                            break2 = true;
                                             break;
                                         case 3:
                                             if (libro.cantidad <= 0) {
@@ -190,7 +196,7 @@ int main() {
                                             }
                                             cin.ignore(1);
                                             getline(cin, entrada_str);
-                                            break_loop = true;
+                                            break2 = true;
                                             break;
                                     }
                                 } else {
@@ -203,13 +209,13 @@ int main() {
                                     } while (tolower(accion_c) != 'y' && tolower(accion_c) != 'n');
 
                                     if (accion_c == 'y') {
-                                        break_loop = false;
+                                        break2 = false;
                                     } else {
-                                        break_loop = true;
+                                        break2 = true;
                                     }
                                 }
                                 break;
-                            case 2:
+                            case 3:
                                 if (cliente_activo.libro.id != -1) {
                                     DevolverLibro(clientes, libros, cliente_activo);
                                     cout << "El libro ha sido devuelto con exito" << endl;
@@ -218,14 +224,92 @@ int main() {
                                 }
                                 cin.ignore(1);
                                 getline(cin, entrada_str);
-                                break_loop = true;
+                                break2 = true;
                                 break;
                         }
-                        if (break_loop)
+                        if (break2)
                             break;
                     }
-                break;
+                    break;
+                case U_EMP:
+                    Libro libro;
+                    cout    << endl << endl
+                            << "(1) Salir" << endl
+                            << "(2) Buscar un libro" << endl
+                            << "(3) Anadir un libro" << endl << endl
+                            << "Ingrese una opcion: ";
+                    do {
+                        cin >> accion;
+                    } while (accion < 1 || accion > 3);
+
+                    while (true) {
+                        bool break2 = false;
+
+                        system("cls");
+                        cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl
+                                << "---------- " << temp << " ------------" << endl << endl;
+                        cin.ignore(1);
+                        switch (accion) {
+                            case 1:
+                                break1 = true;
+                                break2 = true;
+                                break;
+                            case 2:
+                                cout << "Ingrese el nombre del libro (Salir: e): ";
+                                getline(cin, entrada_str);
+                                if (entrada_str == "e") {
+                                    break2 = true;
+                                    break;
+                                }
+                                libro = BuscarLibro(libros, entrada_str);
+                                if (libro.id != -1) {
+                                    system("cls");
+                                    cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl
+                                            << "----------- LIBRO -------------" << endl << endl
+                                            << "ID: " << libro.id << endl
+                                            << "Nombre: " << libro.nombre << endl
+                                            << "Editorial: " << libro.editorial << endl
+                                            << "Edicion: " << libro.edicion << endl
+                                            << "Cantidad disp.: " << libro.cantidad << endl
+                                            << "Precio: " << libro.precio << '$' << endl << endl
+                                            << "(1) Salir"
+                                            << "(2) Eliminar" << endl
+                                            << "(3) Modificar" << endl << endl
+                                            << "Ingrese una opcion: ";
+                                    
+                                    do {
+                                        cin >> accion;
+                                    } while (accion < 1 || accion > 3);
+
+                                    switch (accion) {
+                                        case 1: break;
+                                        case 2:
+                                            EliminarLibro(libros, libro);
+                                            cout << "El libro fue eliminado con exito";
+                                            cin.ignore(1);
+                                            getline(cin, entrada_str);
+                                            break;
+                                        case 3:
+                                            ModificarLibro(libros, libro);
+                                            cout << "El libro fue modificado con exito";
+                                            cin.ignore(1);
+                                            getline(cin, entrada_str);
+                                            break;
+                                    }
+                                }
+                                break;
+                            case 3:
+                                AnadirLibro(libros);
+                                cout << "El libro fue anadido con exito";
+                                cin.ignore(1);
+                                getline(cin, entrada_str);
+                                break;
+                        }
+                    }
+                    break;
             }
+            if (break1)
+                break;
         }
     }
     cout << endl << "Cerrando..." << endl;

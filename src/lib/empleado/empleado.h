@@ -19,3 +19,6 @@ struct Empleado {
 void ObtenerEmpleados(Empleado empleados[]);
 Empleado BuscarEmpleado(Empleado clientes[], string usuario);
 void CambiarCantLibro(Libro libros[], Libro libro, int cantidad);
+void EliminarLibro(Libro libros[], Libro libro);
+void ModificarLibro(Libro libros[], Libro &libro);
+void AnadirLibro(Libro libros[]);
