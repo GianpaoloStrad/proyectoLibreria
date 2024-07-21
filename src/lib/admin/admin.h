@@ -26,4 +26,7 @@ void CambiarEstadoAdmin(Admin admins[], string usuario);
 bool EliminarCliente(Cliente clientes[], string usuario);
 bool EliminarEmpleado(Empleado empleados[], string usuario);
 bool EliminarAdmin(Admin admins[], string usuario, string usuario_admin_activo);
+void AnadirCliente(Cliente clientes[], Cliente cliente);
+void AnadirEmpleado(Empleado empleados[], Empleado empleado);
+void AnadirAdmin(Admin admins[], Admin admin);
 void ActualizarAdminsCSV(Admin admins[]);

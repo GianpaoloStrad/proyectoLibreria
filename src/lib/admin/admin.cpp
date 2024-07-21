@@ -137,6 +137,51 @@ bool EliminarAdmin(Admin admins[], string usuario, string usuario_admin_activo) 
     return 0;
 }
 
+void AnadirCliente(Cliente clientes[], Cliente cliente) {
+    for (int i = 0; i < NUM_CLIENTES; i++) {
+        if (clientes[i].usuario == "") {
+            clientes[i].usuario = cliente.usuario;
+            clientes[i].contrasena = cliente.contrasena;
+            clientes[i].primer_nombre = cliente.primer_nombre;
+            clientes[i].apellido = cliente.apellido;
+            clientes[i].genero = cliente.genero;
+            clientes[i].suspendido = false;
+            break;
+        }
+    }
+    ActualizarClientesCSV(clientes);
+}
+
+void AnadirEmpleado(Empleado empleados[], Empleado empleado) {
+    for (int i = 0; i < NUM_EMPLEADOS; i++) {
+        if (empleados[i].usuario == "") {
+            empleados[i].usuario = empleado.usuario;
+            empleados[i].contrasena = empleado.contrasena;
+            empleados[i].primer_nombre = empleado.primer_nombre;
+            empleados[i].apellido = empleado.apellido;
+            empleados[i].genero = empleado.genero;
+            empleados[i].suspendido = false;
+            break;
+        }
+    }
+    ActualizarEmpleadosCSV(empleados);
+}
+
+void AnadirAdmin(Admin admins[], Admin admin) {
+    for (int i = 0; i < NUM_ADMINS; i++) {
+        if (admins[i].usuario == "") {
+            admins[i].usuario = admin.usuario;
+            admins[i].contrasena = admin.contrasena;
+            admins[i].primer_nombre = admin.primer_nombre;
+            admins[i].apellido = admin.apellido;
+            admins[i].genero = admin.genero;
+            admins[i].suspendido = false;
+            break;
+        }
+    }
+    ActualizarAdminsCSV(admins);
+}
+
 void ActualizarAdminsCSV(Admin admins[]) {
     ifstream csv_ifstream(ADMINS_CSV);
     string encabezado = "";

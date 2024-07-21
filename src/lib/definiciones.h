@@ -32,6 +32,9 @@
 #define ADM_USR_SUS 63
 #define ADM_USR_ELI 64
 
+#define ADM_USR_AND_1 65
+#define ADM_USR_AND_2 66
+
 #define LIB_BSC_1 500
 #define LIB_BSC_2 501
 

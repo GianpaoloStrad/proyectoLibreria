@@ -33,10 +33,10 @@ int main() {
     string contrasena;
     Libro libro;
     string entrada_str = "";
-    int usuario_busqueda = -1;
-    Cliente cliente_busqueda = Cliente();
-    Empleado empleado_busqueda = Empleado();
-    Admin admin_busqueda = Admin();
+    int tipo_usuario_otro = -1;
+    Cliente cliente_otro = Cliente();
+    Empleado empleado_otro = Empleado();
+    Admin admin_otro = Admin();
     while (true) {
         bool error = false;
         bool reintentar = false;
@@ -253,13 +253,13 @@ int main() {
                 system("cls");
                 cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl 
                         << "------- ADMIN - CLIENTE -------" << endl << endl
-                        << "Usuario: " << cliente_busqueda.usuario << endl
-                        << "Nombre: " << cliente_busqueda.primer_nombre << ' ' << cliente_busqueda.apellido << endl
-                        << "Genero: " << cliente_busqueda.genero << endl
-                        << "Libro rentado: " << cliente_busqueda.libro.nombre << endl
-                        << "Suspendido: " << (cliente_busqueda.suspendido ? "Si" : "No") << endl << endl
+                        << "Usuario: " << cliente_otro.usuario << endl
+                        << "Nombre: " << cliente_otro.primer_nombre << ' ' << cliente_otro.apellido << endl
+                        << "Genero: " << cliente_otro.genero << endl
+                        << "Libro rentado: " << cliente_otro.libro.nombre << endl
+                        << "Suspendido: " << (cliente_otro.suspendido ? "Si" : "No") << endl << endl
                         << "(1) Salir" << endl
-                        << "(2) " << (cliente_busqueda.suspendido ? "Activar" : "Suspender") << endl
+                        << "(2) " << (cliente_otro.suspendido ? "Activar" : "Suspender") << endl
                         << "(3) Eliminar" << endl
                         << "Ingrese una opcion: ";
 
@@ -273,12 +273,12 @@ int main() {
                 system("cls");
                 cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl 
                         << "------- ADMIN - EMPLEADO ------" << endl << endl
-                        << "Usuario: " << empleado_busqueda.usuario << endl
-                        << "Nombre: " << empleado_busqueda.primer_nombre << ' ' << empleado_busqueda.apellido << endl
-                        << "Genero: " << empleado_busqueda.genero << endl
-                        << "Suspendido: " << (empleado_busqueda.suspendido ? "Si" : "No") << endl << endl
+                        << "Usuario: " << empleado_otro.usuario << endl
+                        << "Nombre: " << empleado_otro.primer_nombre << ' ' << empleado_otro.apellido << endl
+                        << "Genero: " << empleado_otro.genero << endl
+                        << "Suspendido: " << (empleado_otro.suspendido ? "Si" : "No") << endl << endl
                         << "(1) Salir" << endl
-                        << "(2) " << (empleado_busqueda.suspendido ? "Activar" : "Suspender") << endl
+                        << "(2) " << (empleado_otro.suspendido ? "Activar" : "Suspender") << endl
                         << "(3) Eliminar" << endl
                         << "Ingrese una opcion: ";
 
@@ -292,12 +292,12 @@ int main() {
                 system("cls");
                 cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl 
                         << "-------- ADMIN - ADMIN --------" << endl << endl
-                        << "Usuario: " << admin_busqueda.usuario << endl
-                        << "Nombre: " << admin_busqueda.primer_nombre << ' ' << admin_busqueda.apellido << endl
-                        << "Genero: " << admin_busqueda.genero << endl
-                        << "Suspendido: " << (admin_busqueda.suspendido ? "Si" : "No") << endl << endl
+                        << "Usuario: " << admin_otro.usuario << endl
+                        << "Nombre: " << admin_otro.primer_nombre << ' ' << admin_otro.apellido << endl
+                        << "Genero: " << admin_otro.genero << endl
+                        << "Suspendido: " << (admin_otro.suspendido ? "Si" : "No") << endl << endl
                         << "(1) Salir" << endl
-                        << "(2) " << (admin_busqueda.suspendido ? "Activar" : "Suspender") << endl
+                        << "(2) " << (admin_otro.suspendido ? "Activar" : "Suspender") << endl
                         << "(3) Eliminar" << endl
                         << "Ingrese una opcion: ";
 
@@ -308,10 +308,10 @@ int main() {
                 break;
 
             case ADM_USR_SUS:
-                switch (usuario_busqueda) {
-                    case CLT: CambiarEstadoCliente(clientes, cliente_busqueda.usuario); break;
-                    case EMP: CambiarEstadoEmpleado(empleados, empleado_busqueda.usuario); break;
-                    case ADM: CambiarEstadoAdmin(admins, admin_busqueda.usuario); break;
+                switch (tipo_usuario_otro) {
+                    case CLT: CambiarEstadoCliente(clientes, cliente_otro.usuario); break;
+                    case EMP: CambiarEstadoEmpleado(empleados, empleado_otro.usuario); break;
+                    case ADM: CambiarEstadoAdmin(admins, admin_otro.usuario); break;
                 }
 
                 cout << "El estado del usuario fue modificado con exito";
@@ -322,10 +322,10 @@ int main() {
                 break;
 
             case ADM_USR_ELI:
-                switch (usuario_busqueda) {
-                    case CLT: error = EliminarCliente(clientes, cliente_busqueda.usuario); break;
-                    case EMP: error = EliminarEmpleado(empleados, empleado_busqueda.usuario); break;
-                    case ADM: error = EliminarAdmin(admins, admin_busqueda.usuario, admin_activo.usuario); break;
+                switch (tipo_usuario_otro) {
+                    case CLT: error = EliminarCliente(clientes, cliente_otro.usuario); break;
+                    case EMP: error = EliminarEmpleado(empleados, empleado_otro.usuario); break;
+                    case ADM: error = EliminarAdmin(admins, admin_otro.usuario, admin_activo.usuario); break;
                 }
 
                 if (!error) 
@@ -334,6 +334,73 @@ int main() {
                     cout << "No es posible eliminar este usuario ya que esta siendo utilizado";
                     error = false;
                 }
+
+                cin.ignore(1);
+                getline(cin, entrada_str);
+
+                break;
+
+            case ADM_USR_AND_1:
+                system("cls");
+                cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl 
+                        << "----------- ADMIN -----------" << endl << endl
+                        << "(1) Salir" << endl
+                        << "(2) Anadir cliente" << endl
+                        << "(3) Anadir empleado" << endl
+                        << "(4) Anadir admin" << endl << endl
+                        << "Ingrese una opcion: ";
+
+                do {
+                    cin >> accion_sig;
+                } while (accion_sig < 1 || accion_sig > 4);
+
+                break;
+
+            case ADM_USR_AND_2:
+                system("cls");
+                cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl 
+                        << "--- ADMIN - ANADIR USUARIO ---" << endl << endl
+                        << "Usuario: ";
+                switch (tipo_usuario_otro) {
+                    case CLT: cin >> cliente_otro.usuario; break;
+                    case EMP: cin >> empleado_otro.usuario; break;
+                    case ADM: cin >> admin_otro.usuario; break;
+                }
+                cout << "Contrasena: ";
+                switch (tipo_usuario_otro) {
+                    case CLT: cin >> cliente_otro.contrasena; break;
+                    case EMP: cin >> empleado_otro.contrasena; break;
+                    case ADM: cin >> admin_otro.contrasena; break;
+                }
+                cout << "Primer nombre: ";
+                switch (tipo_usuario_otro) {
+                    case CLT: cin >> cliente_otro.primer_nombre; break;
+                    case EMP: cin >> empleado_otro.primer_nombre; break;
+                    case ADM: cin >> admin_otro.primer_nombre; break;
+                }
+                cout << "Apellido: ";
+                switch (tipo_usuario_otro) {
+                    case CLT: cin >> cliente_otro.apellido; break;
+                    case EMP: cin >> empleado_otro.apellido; break;
+                    case ADM: cin >> admin_otro.apellido; break;
+                }
+                cout << "Genero: ";
+                do {
+                    cin >> accion_c;
+                    accion_c = toupper(accion_c);
+                } while (accion_c != 'M' && accion_c != 'F');
+                switch (tipo_usuario_otro) {
+                    case CLT: cliente_otro.genero = accion_c; break;
+                    case EMP: empleado_otro.genero = accion_c; break;
+                    case ADM: admin_otro.genero = accion_c; break;
+                }
+                switch (tipo_usuario_otro) {
+                    case CLT: AnadirCliente(clientes, cliente_otro); break;
+                    case EMP: AnadirEmpleado(empleados, empleado_otro); break;
+                    case ADM: AnadirAdmin(admins, admin_otro); break;
+                }
+
+                cout << "El " << CodUsuarioAString(tipo_usuario_otro) << " ha sido anadido con exito";
 
                 cin.ignore(1);
                 getline(cin, entrada_str);
@@ -401,30 +468,30 @@ int main() {
                 system("cls");
                 cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl
                         << "----------- " << temp << " -----------" << endl << endl
-                        << "Ingrese el usuario del " << CodUsuarioAString(usuario_busqueda) << ": ";
+                        << "Ingrese el usuario del " << CodUsuarioAString(tipo_usuario_otro) << ": ";
 
                 cin.ignore(1);
                 getline(cin, entrada_str);
 
-                switch (usuario_busqueda) {
+                switch (tipo_usuario_otro) {
                     case CLT:
-                        cliente_busqueda = BuscarCliente(clientes, entrada_str);
-                        if (cliente_busqueda.usuario == "") error = true;
+                        cliente_otro = BuscarCliente(clientes, entrada_str);
+                        if (cliente_otro.usuario == "") error = true;
                         break;
                     case EMP:
-                        empleado_busqueda = BuscarEmpleado(empleados, entrada_str);
-                        if (empleado_busqueda.usuario == "") error = true;
+                        empleado_otro = BuscarEmpleado(empleados, entrada_str);
+                        if (empleado_otro.usuario == "") error = true;
                         break;
                     case ADM:
-                        admin_busqueda = BuscarAdmin(admins, entrada_str);
-                        if (admin_busqueda.usuario == "") error = true;
+                        admin_otro = BuscarAdmin(admins, entrada_str);
+                        if (admin_otro.usuario == "") error = true;
                         break;
                 }
 
                 break;
 
             case ERR_USR:
-                cout    << "No se encontro ningun " << CodUsuarioAString(usuario_busqueda) << " con el usuario `" << entrada_str << "`." << endl
+                cout    << "No se encontro ningun " << CodUsuarioAString(tipo_usuario_otro) << " con el usuario `" << entrada_str << "`." << endl
                         << "Desea probar de nuevo? (y/n)";
                     
                 do {
@@ -512,6 +579,7 @@ int main() {
                     case 1: accion = LOG; break;
                     case 2: accion = LIB_BSC_1; break;
                     case 3: accion = USR_BSC_1; break;
+                    case 4: accion = ADM_USR_AND_1; break;
                 }
                 break;
             case ADM_CLT:
@@ -525,7 +593,19 @@ int main() {
                 break;
             case ADM_USR_SUS:
             case ADM_USR_ELI:
+            case ADM_USR_AND_2:
                 accion = ADM;
+                break;
+            case ADM_USR_AND_1:
+                switch (accion_sig) {
+                    case 1: accion = ADM; break;
+                    case 2:
+                    case 3:
+                    case 4:
+                        tipo_usuario_otro = accion_sig - 1;
+                        accion = ADM_USR_AND_2;
+                        break;
+                }
                 break;
             case LIB_BSC_1:
                 if (salir) accion = tipo_usuario;
@@ -548,7 +628,7 @@ int main() {
                     case 2:
                     case 3:
                     case 4:
-                        usuario_busqueda = accion_sig - 1;
+                        tipo_usuario_otro = accion_sig - 1;
                         accion = USR_BSC_2;
                         break;
                 }
@@ -560,7 +640,7 @@ int main() {
                         case CLT:
                         case EMP: throw("USR_BSC_2 no esta implementado para CLT o EMP"); break;
                         case ADM:
-                            switch (usuario_busqueda) {
+                            switch (tipo_usuario_otro) {
                                 case CLT: accion = ADM_CLT; break;
                                 case EMP: accion = ADM_EMP; break;
                                 case ADM: accion = ADM_ADM; break;
