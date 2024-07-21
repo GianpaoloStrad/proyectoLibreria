@@ -65,29 +65,76 @@ Admin BuscarAdmin(Admin admins[], string usuario) {
 
 void CambiarEstadoCliente(Cliente clientes[], string usuario) {
     for (int i = 0; i < NUM_CLIENTES; i++) {
-        if (clientes[i].usuario == usuario)
+        if (clientes[i].usuario == usuario) {
             clientes[i].suspendido = !clientes[i].suspendido;
             break;
+        }
     }
     ActualizarClientesCSV(clientes);
 }
 
 void CambiarEstadoEmpleado(Empleado empleados[], string usuario) {
     for (int i = 0; i < NUM_EMPLEADOS; i++) {
-        if (empleados[i].usuario == usuario)
+        if (empleados[i].usuario == usuario) {
             empleados[i].suspendido = !empleados[i].suspendido;
             break;
+        }
     }
     ActualizarEmpleadosCSV(empleados);
 }
 
 void CambiarEstadoAdmin(Admin admins[], string usuario) {
     for (int i = 0; i < NUM_ADMINS; i++) {
-        if (admins[i].usuario == usuario)
+        if (admins[i].usuario == usuario) {
             admins[i].suspendido = !admins[i].suspendido;
             break;
-    }
+        }
+    } 
     ActualizarAdminsCSV(admins);
+}
+
+bool EliminarCliente(Cliente clientes[], string usuario) {
+    for (int i = 0; i < NUM_CLIENTES - 1; i++) {
+        if (clientes[i].usuario == usuario) {
+            for (int j = i; j < NUM_CLIENTES - 1; j++) {
+                clientes[j] = clientes[j + 1];
+            }
+            break;
+        }
+    }
+    clientes[NUM_CLIENTES - 1] = Cliente();
+    ActualizarClientesCSV(clientes);
+    return 0;
+}
+
+bool EliminarEmpleado(Empleado empleados[], string usuario) {
+    for (int i = 0; i < NUM_EMPLEADOS - 1; i++) {
+        if (empleados[i].usuario == usuario) {
+            for (int j = i; j < NUM_EMPLEADOS - 1; j++) {
+                empleados[j] = empleados[j + 1];
+            }
+            break;
+        }
+    }
+    empleados[NUM_EMPLEADOS - 1] = Empleado();
+    ActualizarEmpleadosCSV(empleados);
+    return 0;
+}
+
+bool EliminarAdmin(Admin admins[], string usuario, string usuario_admin_activo) {
+    if (usuario == usuario_admin_activo) return 1;
+
+    for (int i = 0; i < NUM_ADMINS - 1; i++) {
+        if (admins[i].usuario == usuario) {
+            for (int j = i; j < NUM_ADMINS - 1; j++) {
+                admins[j] = admins[j + 1];
+            }
+            break;
+        }
+    }
+    admins[NUM_ADMINS - 1] = Admin();
+    ActualizarAdminsCSV(admins);
+    return 0;
 }
 
 void ActualizarAdminsCSV(Admin admins[]) {

@@ -278,7 +278,7 @@ int main() {
                         << "Genero: " << empleado_busqueda.genero << endl
                         << "Suspendido: " << (empleado_busqueda.suspendido ? "Si" : "No") << endl << endl
                         << "(1) Salir" << endl
-                        << "(2) " << (cliente_busqueda.suspendido ? "Activar" : "Suspender") << endl
+                        << "(2) " << (empleado_busqueda.suspendido ? "Activar" : "Suspender") << endl
                         << "(3) Eliminar" << endl
                         << "Ingrese una opcion: ";
 
@@ -293,11 +293,11 @@ int main() {
                 cout    << "TERMINAL DE USUARIO DE LIBRERIA" << endl 
                         << "-------- ADMIN - ADMIN --------" << endl << endl
                         << "Usuario: " << admin_busqueda.usuario << endl
-                        << "Nombre: " << admin_busqueda.primer_nombre << ' ' << cliente_busqueda.apellido << endl
+                        << "Nombre: " << admin_busqueda.primer_nombre << ' ' << admin_busqueda.apellido << endl
                         << "Genero: " << admin_busqueda.genero << endl
                         << "Suspendido: " << (admin_busqueda.suspendido ? "Si" : "No") << endl << endl
                         << "(1) Salir" << endl
-                        << "(2) " << (cliente_busqueda.suspendido ? "Activar" : "Suspender") << endl
+                        << "(2) " << (admin_busqueda.suspendido ? "Activar" : "Suspender") << endl
                         << "(3) Eliminar" << endl
                         << "Ingrese una opcion: ";
 
@@ -315,6 +315,25 @@ int main() {
                 }
 
                 cout << "El estado del usuario fue modificado con exito";
+
+                cin.ignore(1);
+                getline(cin, entrada_str);
+
+                break;
+
+            case ADM_USR_ELI:
+                switch (usuario_busqueda) {
+                    case CLT: error = EliminarCliente(clientes, cliente_busqueda.usuario); break;
+                    case EMP: error = EliminarEmpleado(empleados, empleado_busqueda.usuario); break;
+                    case ADM: error = EliminarAdmin(admins, admin_busqueda.usuario, admin_activo.usuario); break;
+                }
+
+                if (!error) 
+                    cout << "El usuario fue eliminado con exito";
+                else {
+                    cout << "No es posible eliminar este usuario ya que esta siendo utilizado";
+                    error = false;
+                }
 
                 cin.ignore(1);
                 getline(cin, entrada_str);
@@ -503,6 +522,10 @@ int main() {
                     case 2: accion = ADM_USR_SUS; break;
                     case 3: accion = ADM_USR_ELI; break;
                 }
+                break;
+            case ADM_USR_SUS:
+            case ADM_USR_ELI:
+                accion = ADM;
                 break;
             case LIB_BSC_1:
                 if (salir) accion = tipo_usuario;

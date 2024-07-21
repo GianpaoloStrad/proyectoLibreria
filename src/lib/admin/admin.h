@@ -23,4 +23,7 @@ Admin BuscarAdmin(Admin admins[], string usuario);
 void CambiarEstadoCliente(Cliente clientes[], string usuario);
 void CambiarEstadoEmpleado(Empleado empleados[], string usuario);
 void CambiarEstadoAdmin(Admin admins[], string usuario);
+bool EliminarCliente(Cliente clientes[], string usuario);
+bool EliminarEmpleado(Empleado empleados[], string usuario);
+bool EliminarAdmin(Admin admins[], string usuario, string usuario_admin_activo);
 void ActualizarAdminsCSV(Admin admins[]);
