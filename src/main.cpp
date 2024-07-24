@@ -21,27 +21,41 @@ int main() {
     ObtenerEmpleados(empleados);
     ObtenerAdmins(admins);
 
+    // Guarda el usuario activo del login
     Cliente cliente_activo = Cliente();
     Empleado empleado_activo = Empleado();
     Admin admin_activo = Admin();
+    // Codigo del tipo de usuario activo para definir las acciones que se pueden realizar
     int tipo_usuario = -1;
+    // Guarda la pantalla que se debe mostrar
     int accion = 0;
+    // Guarda la pantalla anterior a la actual
     int accion_ant = -1;
+    // Guarda la accion seleccionada por el usuario
     int accion_sig = -1;
 
+    // Variables usadas para el login
     string usuario;
     string contrasena;
+    // Guarda el libro buscado por un usuario
     Libro libro;
+    // Guarda casi cualquier entrada de string del usuario
     string entrada_str = "";
+    // Guarda el usuario a ingresar por el administrador
     int tipo_usuario_otro = -1;
     Cliente cliente_otro = Cliente();
     Empleado empleado_otro = Empleado();
     Admin admin_otro = Admin();
+    // Ciclo prinicipal (se repite hasta que el usuario quiera salir)
     while (true) {
+        // Variables que sea activan cuando sucede un error
         int error = 0;
         bool reintentar = false;
+        // Se activa cuando se quiere salir de una pantalla
         bool salir = false;
+        // Toma valores de 'y' o 'n' en este programa para entradas de "si" o "no"
         char accion_c = ' ';
+        // Variable temporal
         string temp = "";
         switch (accion) {
             case LOG:
