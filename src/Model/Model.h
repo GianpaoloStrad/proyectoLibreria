@@ -50,7 +50,7 @@ public:
     Libro BuscarLibroPorID(int id);
 
     void AnadirLibro();
-    void RliminarLibro(const Libro& libro);
+    void EliminarLibro(const Libro& libro);
     void ModificarLibro(const Libro& libro);
 
     void ComprarLibro(Cliente& cliente, const Libro& libro);
